@@ -147,12 +147,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Exception.cpp" />
     <ClCompile Include="windowsh_include.hpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Exception.hpp" />
     <ClInclude Include="Window.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="hw3d.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
