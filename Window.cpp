@@ -1,4 +1,5 @@
 #include "Window.hpp"
+#include "resource.h"
 
 Window::WindowClass Window::WindowClass::wndClass;
 
@@ -14,12 +15,18 @@ Window::WindowClass::WindowClass() noexcept
 	wc.cbClsExtra = 0;
 	wc.cbWndExtra = 0;
 	wc.hInstance = GetInstance();
-	wc.hIcon = nullptr;
+	wc.hIcon = static_cast<HICON>(LoadImage(
+								  GetInstance(), 
+								  MAKEINTRESOURCE(IDI_ICON1), 
+								  IMAGE_ICON, 32, 32, 0));
 	wc.hCursor = nullptr;
 	wc.hbrBackground = nullptr;
 	wc.lpszMenuName = nullptr;
 	wc.lpszClassName = GetName();
-	wc.hIconSm = nullptr;
+	wc.hIconSm = static_cast<HICON>(LoadImage(
+									GetInstance(),
+									MAKEINTRESOURCE(IDI_ICON1),
+									IMAGE_ICON, 16, 16, 0));
 	RegisterClassEx(&wc);
 }
 
@@ -48,7 +55,11 @@ Window::Window(int width, int height, const char* name)
 	wr.right = width + wr.left;
 	wr.top = 100;
 	wr.bottom = height + wr.top;
-	AdjustWindowRect(&wr, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE);
+	if (AdjustWindowRect(&wr, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE) == 0)
+	{
+		throw CHWND_LAST_EXCEPT();
+	};
+
 	// create window and get handle (hWnd)
 	hWnd = CreateWindow
 	(
@@ -64,12 +75,28 @@ Window::Window(int width, int height, const char* name)
 		WindowClass::GetInstance(),
 		this	// connecting with WM_NCCREATE
 	);
+	// check for error
+	if (hWnd == nullptr)
+	{
+		throw CHWND_LAST_EXCEPT();
+	}
+
+
+	// function 'show window'
 	ShowWindow(hWnd, SW_SHOWDEFAULT);
 }
 
 Window::~Window()
 {
 	DestroyWindow(hWnd);
+}
+
+void Window::SetTitle(const std::string& title)
+{
+	if (SetWindowText(hWnd, title.c_str()) == 0)
+	{
+		throw CHWND_LAST_EXCEPT();
+	}
 }
 
 // adapter from WIN32 call convention to c++ member-function call convention
@@ -111,6 +138,88 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 	case WM_CLOSE:
 		PostQuitMessage(0);
 		return 0;	// then ~Window() destroy class
+
+	// clear keystate when window loses focus to prevent input getting
+	case WM_KILLFOCUS:
+		keyboard.ClearState();
+		break;
+
+	// keyboard messages
+	case WM_KEYDOWN:
+
+	// syskey commands need to be handled to track ALT key (VM_MENU) and F10
+	case WM_SYSKEYDOWN:
+		if (!(lParam & 0x40000000) || keyboard.AutorepeatIsEnabled())	// filter autorepeat
+		{
+			keyboard.OnKeyPressed(static_cast<unsigned char>(wParam));
+		}
+		break;
+	case WM_KEYUP:
+	case WM_SYSKEYUP:
+		keyboard.OnKeyReleased(static_cast<unsigned char>(wParam));
+		break;
+	case WM_CHAR:
+		keyboard.OnChar(static_cast<unsigned char>(wParam));
+		break;
+	// end keyboard messages
+
+	// mouse messages
+	case WM_MOUSEMOVE:
+	{
+		const POINTS pt = MAKEPOINTS(lParam);
+		// in client region -> log move, and log enter + capture mouse (if not previous)
+		if (pt.x >= 0 && pt.x < width && pt.y >= 0 && pt.y < height)
+		{
+			mouse.OnMouseMove(pt.x, pt.y);
+			if (!mouse.IsInWindow())
+			{
+				SetCapture(hWnd);
+				mouse.OnMouseEnter();
+			}
+		}
+		// not in client -> log move / maintrain capture if button down
+		else
+		{
+			if (wParam & (MK_LBUTTON | MK_RBUTTON))
+			{
+				mouse.OnMouseMove(pt.x, pt.y);
+			}
+			// button up -> release capture / log event for leaving
+			else
+			{
+				ReleaseCapture();
+				mouse.OnMouseLeave();
+			}
+		}
+		
+		break;
+	}
+	case WM_LBUTTONDOWN:
+	{
+		const POINTS pt = MAKEPOINTS(lParam);
+		mouse.OnLeftPressed(pt.x, pt.y);
+		break;
+	}
+	case WM_LBUTTONUP:
+	{
+		const POINTS pt = MAKEPOINTS(lParam);
+		mouse.OnLeftReleased(pt.x, pt.y);
+		break;
+	}
+	case WM_RBUTTONUP:
+	{
+		const POINTS pt = MAKEPOINTS(lParam);
+		mouse.OnRightReleased(pt.x, pt.y);
+		break;
+	}
+	case WM_MOUSEWHEEL:
+	{
+		const POINTS pt = MAKEPOINTS(lParam);
+		const int delta = GET_WHEEL_DELTA_WPARAM(wParam);
+		mouse.OnWheelDelta(pt.x, pt.y, delta);
+		break;
+	}
+	// end mouse messages
 	}
 
 	return DefWindowProc(hWnd, msg, wParam, lParam);

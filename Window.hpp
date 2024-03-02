@@ -1,6 +1,8 @@
 #pragma once 
 #include "windowsh_include.hpp"
 #include "Exception.hpp"
+#include "Keyboard.hpp"
+#include "Mouse.hpp"
 
 class Window
 {
@@ -38,12 +40,20 @@ public:
 	~Window();
 	Window(const Window&) = delete;
 	Window& operator = (const Window&) = delete;
+	void SetTitle(const std::string& title);
 private:
 	static LRESULT CALLBACK HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
 	static LRESULT CALLBACK HandleMsgThunk(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
 	LRESULT HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
-
+public:
+	Keyboard keyboard;
+	Mouse mouse;
+private:
 	int width;
 	int height;
 	HWND hWnd;
 };
+
+// error exception helper macro
+#define CHWND_EXCEPT(hr) Window::Exception(__LINE__, __FILE__, hr);
+#define CHWND_LAST_EXCEPT() Window::Exception(__LINE__, __FILE__, GetLastError())

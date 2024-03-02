@@ -148,16 +148,24 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Exception.cpp" />
+    <ClCompile Include="Keyboard.cpp" />
+    <ClCompile Include="Mouse.cpp" />
+    <ClCompile Include="Mouse.hpp" />
     <ClCompile Include="windowsh_include.hpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Exception.hpp" />
+    <ClInclude Include="Keyboard.hpp" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Window.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="hw3d.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon1.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
