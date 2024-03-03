@@ -1,0 +1,30 @@
+#include "App.hpp"
+#include <sstream>
+#include <iomanip>
+
+App::App()
+	:
+	wnd(800, 600, "Main Box")
+{}
+
+int App::Go()
+{
+	while (true)
+	{
+		// process all messages pending, but not block for new messages
+		if (const auto ecode = Window::ProcessMessages())
+		{
+			// if return optional has value, means we're quiting so return exit code
+			return *ecode;
+		}
+		DoFrame();
+	}
+}
+
+void App::DoFrame()
+{
+	const float t = Timer.Peek();
+	std::ostringstream oss;
+	oss << "Time elapsed: " << std::setprecision(1) << std::fixed << t << "s";
+	wnd.SetTitle(oss.str());
+}
