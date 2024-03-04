@@ -15,18 +15,22 @@ Window::WindowClass::WindowClass() noexcept
 	wc.cbClsExtra = 0;
 	wc.cbWndExtra = 0;
 	wc.hInstance = GetInstance();
-	wc.hIcon = static_cast<HICON>(LoadImage(
-								  GetInstance(), 
-								  MAKEINTRESOURCE(IDI_ICON1), 
-								  IMAGE_ICON, 32, 32, 0));
+	wc.hIcon = static_cast<HICON>(LoadImage
+	(
+		GetInstance(), 
+		MAKEINTRESOURCE(IDI_ICON1), 
+		IMAGE_ICON, 32, 32, 0)
+	);
 	wc.hCursor = nullptr;
 	wc.hbrBackground = nullptr;
 	wc.lpszMenuName = nullptr;
 	wc.lpszClassName = GetName();
-	wc.hIconSm = static_cast<HICON>(LoadImage(
-									GetInstance(),
-									MAKEINTRESOURCE(IDI_ICON1),
-									IMAGE_ICON, 16, 16, 0));
+	wc.hIconSm = static_cast<HICON>(LoadImage
+	(
+		GetInstance(),
+		MAKEINTRESOURCE(IDI_ICON1),
+		IMAGE_ICON, 16, 16, 0)
+	);
 	RegisterClassEx(&wc);
 }
 
@@ -81,9 +85,11 @@ Window::Window(int width, int height, const char* name)
 		throw CHWND_LAST_EXCEPT();
 	}
 
-
-	// function 'show window'
+	// newly created windows start off as hiden
 	ShowWindow(hWnd, SW_SHOWDEFAULT);
+
+	//create graphics object 
+	pGfx = std::make_unique<Graphics>(hWnd);
 }
 
 Window::~Window()
@@ -120,6 +126,12 @@ std::optional<int> Window::ProcessMessages()
 	// return empty optional when not quitting app
 	return {};
 }
+
+Graphics& Window::Gfx()
+{
+	return *pGfx;
+}
+
 
 // adapter from WIN32 call convention to c++ member-function call convention
 // WIN32 HandleMsgSetup() and HandleMsgThunk()

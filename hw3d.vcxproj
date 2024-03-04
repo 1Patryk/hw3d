@@ -149,6 +149,7 @@
   <ItemGroup>
     <ClCompile Include="App.cpp" />
     <ClCompile Include="Exception.cpp" />
+    <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Mouse.hpp" />
@@ -160,6 +161,7 @@
   <ItemGroup>
     <ClInclude Include="App.hpp" />
     <ClInclude Include="Exception.hpp" />
+    <ClInclude Include="Graphics.hpp" />
     <ClInclude Include="Keyboard.hpp" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Timer.hpp" />

@@ -1,5 +1,5 @@
+#include "windowsh_include.hpp"
 #include "Mouse.hpp"
-#include <Windows.h>
 
 std::pair<int, int> Mouse::GetPos() const noexcept
 {
@@ -13,7 +13,6 @@ int Mouse::GetPosX() const noexcept
 
 int Mouse::GetPosY() const noexcept
 {
-	FAILED(5);
 	return y;
 }
 
