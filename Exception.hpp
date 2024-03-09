@@ -1,7 +1,6 @@
 #pragma once
 
 #include <exception>
-#include <string>
 #include <sstream>
 
 class HandleException : public std::exception		// best practice

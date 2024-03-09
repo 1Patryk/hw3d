@@ -1,4 +1,5 @@
 #pragma once
+#include "windowsh_include.hpp"
 #include <queue>
 
 class Mouse

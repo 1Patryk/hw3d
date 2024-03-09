@@ -1,4 +1,3 @@
-#include "windowsh_include.hpp"
 #include "Mouse.hpp"
 
 std::pair<int, int> Mouse::GetPos() const noexcept

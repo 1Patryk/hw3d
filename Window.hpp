@@ -1,5 +1,5 @@
 #pragma once 
-#include "windowsh_include.hpp"
+//#include "windowsh_include.hpp"
 #include "Exception.hpp"
 #include "Keyboard.hpp"
 #include "Mouse.hpp"
@@ -12,15 +12,27 @@ class Window
 public:
 	class Exception : public HandleException
 	{
+		using HandleException::HandleException;
 	public:
-		Exception(int line, const char* file, HRESULT hr) noexcept;
-		const char* what() const noexcept override;
-		virtual const char* GetType() const noexcept;
 		static std::string TranslateErrorCode(HRESULT hr) noexcept;
+	};
+	class HrException : public Exception
+	{
+	public:
+		HrException(int line, const char* file, HRESULT hr) noexcept;
+		const char* what() const noexcept override;
+		const char* GetType() const noexcept override;
+
 		HRESULT GetErrorCode() const noexcept;
-		std::string GetErrorString() const noexcept;
+		std::string GetErrorDescription() const noexcept;
 	private:
 		HRESULT hr;
+	};
+	class NoGfxException : public Exception
+	{
+	public:
+		using Exception::Exception;
+		const char* GetType() const noexcept override;
 	};
 
 private:
@@ -62,5 +74,6 @@ private:
 };
 
 // error exception helper macro
-#define CHWND_EXCEPT(hr) Window::Exception(__LINE__, __FILE__, hr);
-#define CHWND_LAST_EXCEPT() Window::Exception(__LINE__, __FILE__, GetLastError())
+#define CHWND_EXCEPT( hr ) Window::HrException(__LINE__, __FILE__, hr)
+#define CHWND_LAST_EXCEPT() Window::HrException(__LINE__, __FILE__, GetLastError())
+#define CHWND_NOGFX_EXCEPT() Window::NoGfxException(__LINE__, __FILE__)
