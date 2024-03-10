@@ -1,5 +1,5 @@
 #pragma once
-//#include "windowsh_include.hpp"
+#include "windowsh_include.hpp"
 #include "Exception.hpp"
 #include <d3d11.h>
 #include <vector>
@@ -12,6 +12,7 @@ public:
 	{
 		using HandleException::HandleException;
 	};
+
 	class HrException : public Exception
 	{
 	public:
@@ -26,6 +27,20 @@ public:
 		HRESULT hr;
 		std::string info;
 	};
+
+	// InfoException return string, no HRESULT ?
+
+	class InfoException : public Exception
+	{
+	public:
+		InfoException(int line, const char* file, std::vector<std::string> infoMsg) noexcept;
+		const char* what() const noexcept override;
+		const char* GetType() const noexcept override;
+		std::string GetErrorInfo() const noexcept;
+	private:
+		std::string info;
+	};
+
 	class DeviceRemovedException : public HrException
 	{
 		using HrException::HrException;
@@ -41,14 +56,15 @@ public:
 	~Graphics();
 	void EndFrame();
 	void ClearBuffer(float red, float green, float blue) noexcept;
+	void DrawTestTriangle();
 private:
 #ifndef NDEBUG
 	DxgiInfoManager infoManager;
 #endif
-	ID3D11Device* pDevice = nullptr;
-	IDXGISwapChain* pSwap = nullptr;
-	ID3D11DeviceContext* pContext = nullptr;
-	ID3D11RenderTargetView* pTarget = nullptr;
+	Microsoft::WRL::ComPtr<ID3D11Device> pDevice;
+	Microsoft::WRL::ComPtr<IDXGISwapChain> pSwap;
+	Microsoft::WRL::ComPtr<ID3D11DeviceContext> pContext;
+	Microsoft::WRL::ComPtr<ID3D11RenderTargetView> pTarget;
 };
 
 #define GFX_THROW_FAILED(hrcall) if(FAILED(hr = (hrcall))) throw Graphics::HrException(__LINE__,__FILE__,hr);

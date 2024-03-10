@@ -30,15 +30,7 @@ DxgiInfoManager::DxgiInfoManager()
 	}
 
 	HRESULT hr;
-	GFX_THROW_NOINFO(DxgiGetDebugInterface(__uuidof(IDXGIInfoQueue), reinterpret_cast<void**>(&pDxgiInfoQueue)));
-}
-
-DxgiInfoManager::~DxgiInfoManager()
-{
-	if (pDxgiInfoQueue != nullptr)
-	{
-		pDxgiInfoQueue->Release();
-	}
+	GFX_THROW_NOINFO(DxgiGetDebugInterface(__uuidof(IDXGIInfoQueue), &pDxgiInfoQueue));
 }
 
 void DxgiInfoManager::Set() noexcept
@@ -66,6 +58,6 @@ std::vector<std::string> DxgiInfoManager::GetMessages() const
 			GFX_THROW_NOINFO(pDxgiInfoQueue->GetMessage(DXGI_DEBUG_ALL, i, pMessage, &messageLength));
 			messages.emplace_back(pMessage->pDescription);
 		}
-		return messages;
 	}
+	return messages;
 }

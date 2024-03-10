@@ -25,6 +25,7 @@ int CALLBACK WinMain(
 	return -1;
 };
 
-
-
-// next https://www.youtube.com/watch?v=sxt_pshuW3E&list=PLqCJpWy5Fohd3S7ICFXwUomYW0Wv67pDD&index=16&ab_channel=ChiliTomatoNoodle
+// 3D Programming Fundamentals 
+// https://www.youtube.com/watch?v=uehGqieEbus&list=PLqCJpWy5Fohe8ucwhksiv9hTF5sfid8lA&ab_channel=ChiliTomatoNoodle
+// next 
+// https://www.youtube.com/watch?v=KR8bP0G07fc&list=PLqCJpWy5Fohd3S7ICFXwUomYW0Wv67pDD&index=18&ab_channel=ChiliTomatoNoodle

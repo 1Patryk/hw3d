@@ -1,4 +1,5 @@
 #include "Window.hpp"
+#include <sstream>
 #include "resource.h"
 
 Window::WindowClass Window::WindowClass::wndClass;
