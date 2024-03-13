@@ -28,4 +28,4 @@ int CALLBACK WinMain(
 // 3D Programming Fundamentals 
 // https://www.youtube.com/watch?v=uehGqieEbus&list=PLqCJpWy5Fohe8ucwhksiv9hTF5sfid8lA&ab_channel=ChiliTomatoNoodle
 // next 
-// https://www.youtube.com/watch?v=KR8bP0G07fc&list=PLqCJpWy5Fohd3S7ICFXwUomYW0Wv67pDD&index=18&ab_channel=ChiliTomatoNoodle
+// https://www.youtube.com/watch?v=VELCxc0fmwY&list=PLqCJpWy5Fohd3S7ICFXwUomYW0Wv67pDD&index=20&ab_channel=ChiliTomatoNoodle
