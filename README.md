@@ -1,1 +1,1 @@
-From video tutorial - "C++ 3D DirectX Programming"
+From video tutorial - ChiliTomatoNoodle "C++ 3D DirectX Programming"
