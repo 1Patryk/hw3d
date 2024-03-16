@@ -1,9 +1,9 @@
 #pragma once 
-#include "windowsh_include.hpp"
-#include "Exception.hpp"
-#include "Keyboard.hpp"
-#include "Mouse.hpp"
-#include "Graphics.hpp"
+#include "windowsh_includeH.hpp"
+#include "ExceptionH.hpp"
+#include "KeyboardH.hpp"
+#include "MouseH.hpp"
+#include "GraphicsH.hpp"
 #include <optional>
 #include <memory>
 

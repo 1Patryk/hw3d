@@ -1,6 +1,6 @@
 #pragma once
 #include <queue>
-#include "windowsh_include.hpp"
+#include "windowsh_includeH.hpp"
 
 class Mouse
 {
@@ -29,6 +29,7 @@ public:
 		int x;
 		int y;
 	public:
+		
 		Event() noexcept
 			:
 			type(Type::Invalid),
@@ -37,6 +38,7 @@ public:
 			x(0),
 			y(0)
 		{}
+		
 		Event(Type type, const Mouse& parent) noexcept
 			:
 			type(type),

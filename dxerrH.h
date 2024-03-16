@@ -12,7 +12,7 @@
 //--------------------------------------------------------------------------------------
 
 #pragma once
-#include "windowsh_include.hpp"
+#include "windowsh_includeH.hpp"
 #include <sal.h>
 
 #ifdef __cplusplus

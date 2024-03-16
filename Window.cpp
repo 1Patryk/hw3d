@@ -1,6 +1,6 @@
-#include "Window.hpp"
+#include "WindowH.hpp"
 #include <sstream>
-#include "resource.h"
+#include "resourceH.h"
 
 Window::WindowClass Window::WindowClass::wndClass;
 

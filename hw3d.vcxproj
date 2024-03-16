@@ -81,6 +81,7 @@
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <FloatingPointModel>Fast</FloatingPointModel>
       <LanguageStandard>stdcpplatest</LanguageStandard>
+      <ObjectFileName>$(IntDir)/%(RelativeDir)/</ObjectFileName>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -104,6 +105,7 @@
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FloatingPointModel>Fast</FloatingPointModel>
       <LanguageStandard>stdcpplatest</LanguageStandard>
+      <ObjectFileName>$(IntDir)/%(RelativeDir)/</ObjectFileName>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -127,6 +129,7 @@
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <FloatingPointModel>Fast</FloatingPointModel>
       <LanguageStandard>stdcpplatest</LanguageStandard>
+      <ObjectFileName>$(IntDir)/%(RelativeDir)/</ObjectFileName>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -150,6 +153,7 @@
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FloatingPointModel>Fast</FloatingPointModel>
       <LanguageStandard>stdcpplatest</LanguageStandard>
+      <ObjectFileName>$(IntDir)/%(RelativeDir)/</ObjectFileName>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -170,22 +174,22 @@
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="Mouse.cpp" />
-    <ClCompile Include="Mouse.hpp" />
+    <ClCompile Include="MouseH.hpp" />
     <ClCompile Include="Timer.cpp" />
-    <ClCompile Include="windowsh_include.hpp" />
+    <ClCompile Include="windowsh_includeH.hpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="App.hpp" />
-    <ClInclude Include="dxerr.h" />
-    <ClInclude Include="DxgiInfoManager.hpp" />
-    <ClInclude Include="Exception.hpp" />
-    <ClInclude Include="Graphics.hpp" />
-    <ClInclude Include="Keyboard.hpp" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="Timer.hpp" />
-    <ClInclude Include="Window.hpp" />
+    <ClInclude Include="AppH.hpp" />
+    <ClInclude Include="dxerrH.h" />
+    <ClInclude Include="DxgiInfoManagerH.hpp" />
+    <ClInclude Include="ExceptionH.hpp" />
+    <ClInclude Include="GraphicsH.hpp" />
+    <ClInclude Include="KeyboardH.hpp" />
+    <ClInclude Include="resourceH.h" />
+    <ClInclude Include="TimerH.hpp" />
+    <ClInclude Include="WindowH.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="hw3d.rc" />

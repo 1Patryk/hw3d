@@ -1,7 +1,7 @@
 #pragma once
-#include "windowsh_include.hpp"
-#include "Window.hpp"
-#include "Timer.hpp"
+#include "windowsh_includeH.hpp"
+#include "WindowH.hpp"
+#include "TimerH.hpp"
 
 class App
 {

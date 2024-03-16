@@ -1,9 +1,9 @@
 #pragma once
-#include "windowsh_include.hpp"
-#include "Exception.hpp"
+#include "windowsh_includeH.hpp"
+#include "ExceptionH.hpp"
 #include <d3d11.h>
 #include <vector>
-#include "DxgiInfoManager.hpp"
+#include "DxgiInfoManagerH.hpp"
 
 class Graphics
 {
@@ -56,7 +56,7 @@ public:
 	~Graphics();
 	void EndFrame();
 	void ClearBuffer(float red, float green, float blue) noexcept;
-	void DrawTestTriangle();
+	void DrawTestTriangle(float angle, float x, float y);
 private:
 #ifndef NDEBUG
 	DxgiInfoManager infoManager;
@@ -68,4 +68,4 @@ private:
 };
 
 #define GFX_THROW_FAILED(hrcall) if(FAILED(hr = (hrcall))) throw Graphics::HrException(__LINE__,__FILE__,hr);
-#define GFX_DEVICE_REMOVED_EXCEPT(hr) Graphics::DeviceRemovedException(__LINE__,__FILE__,hr);
+//#define GFX_DEVICE_REMOVED_EXCEPT(hr) Graphics::DeviceRemovedException(__LINE__,__FILE__,hr);

@@ -1,4 +1,4 @@
-#include "App.hpp"
+#include "AppH.hpp"
 #include <sstream>
 #include <iomanip>
 
@@ -23,13 +23,20 @@ int App::Go()
 
 void App::DoFrame()
 {
+	/*
 	const float t = Timer.Peek();
 	std::ostringstream oss;
 	oss << "Time elapsed: " << std::setprecision(1) << std::fixed << t << "s";
 	wnd.SetTitle(oss.str());
+	*/
 
 	const float c = sin(Timer.Peek()) / 2.0f + 0.5f;
 	wnd.Gfx().ClearBuffer(c, c, 1.0f);
-	wnd.Gfx().DrawTestTriangle();
+	wnd.Gfx().DrawTestTriangle
+	(
+		Timer.Peek(),
+		wnd.mouse.GetPosX() / 400.0f - 1.0f,
+		-wnd.mouse.GetPosY() / 300.0f + 1.0f
+	);
 	wnd.Gfx().EndFrame();
 }

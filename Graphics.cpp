@@ -1,9 +1,11 @@
-#include "Graphics.hpp"
-#include "dxerr.h"
+#include "GraphicsH.hpp"
+#include "dxerrH.h"
 #include <sstream>
 #include <d3dcompiler.h>
+#include <DirectXMath.h>
 
 namespace wrl = Microsoft::WRL;
+namespace dx = DirectX;
 
 #pragma comment(lib,"d3d11.lib")
 #pragma comment(lib,"D3DCompiler.lib")
@@ -114,9 +116,15 @@ void Graphics::ClearBuffer(float red, float green, float blue) noexcept
 	pContext->ClearRenderTargetView(pTarget.Get(), color);
 }
 
-void Graphics::DrawTestTriangle()
+void Graphics::DrawTestTriangle(float angle, float x, float y)
 {
-	namespace wrl = Microsoft::WRL;
+	// interesting, exisit a quaternion matrix in Dx library
+	/*
+	dx::XMVECTOR v = dx::XMVectorSet(3.0f, 3.0f, 0.0f, 0.0f);
+	auto result = dx::XMVector3Transform(v, dx::XMMatrixScaling(1.5f, 0.0f, 0.0f));
+	auto xx = dx::XMVectorGetX(result);
+	*/
+
 	HRESULT hr;
 
 	struct Vertex
@@ -139,7 +147,7 @@ void Graphics::DrawTestTriangle()
 	};
 
 	// create vertex buffer (1 2d traingle at center of screen)
-	const Vertex vertices[] =
+	Vertex vertices[] =
 	{
 		// x  y  r  g  b  a
 		{0.0f, 0.5f, 255, 0, 0, 0},
@@ -147,10 +155,11 @@ void Graphics::DrawTestTriangle()
 		{-0.5f, -0.5f, 0, 0, 255, 0},
 		{-0.3f, 0.3f, 0, 255, 0, 0},
 		{0.3f, 0.3f, 0, 0, 255, 0},
-		{0.0f, -0.8f, 255, 0, 0, 0},
+		{0.0f, -1.0f, 255, 0, 0, 0},
 
 	};
 
+	vertices[0].color.g = 255;
 	wrl::ComPtr<ID3D11Buffer> pVertexBuffer;
 	D3D11_BUFFER_DESC bd = {};
 	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
@@ -200,6 +209,36 @@ void Graphics::DrawTestTriangle()
 		DXGI_FORMAT_R16_UINT, 
 		0u);
 
+	// create constatnt buffer for transformation matrix
+	struct ConstantBuffer
+	{
+		dx::XMMATRIX transform;
+	};
+	const ConstantBuffer cb =
+	{
+		{
+			dx::XMMatrixTranspose(
+				dx::XMMatrixRotationZ(angle) *
+				dx::XMMatrixScaling(3.0f / 4.0f, 1.0f, 1.0f) *
+				dx::XMMatrixTranslation(3.0f / 4.0f, 1.0f, 0.0f)
+			)
+		}
+	};
+
+	wrl::ComPtr<ID3D11Buffer> pConstantBuffer;
+	D3D11_BUFFER_DESC cbd;
+	cbd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	cbd.Usage = D3D11_USAGE_DYNAMIC;
+	cbd.CPUAccessFlags = D3D10_CPU_ACCESS_WRITE;
+	cbd.MiscFlags = 0u;
+	cbd.ByteWidth = sizeof(cb);
+	cbd.StructureByteStride = 0u;
+	D3D11_SUBRESOURCE_DATA csd = {};
+	csd.pSysMem = &cb;
+	GFX_THROW_INFO(pDevice->CreateBuffer(&cbd, &csd, &pConstantBuffer));
+
+	// bind constant buffer to vertex shader
+	pContext->VSSetConstantBuffers(0u, 1u, pConstantBuffer.GetAddressOf());
 
 	// create pixel shader 
 	wrl::ComPtr<ID3D11PixelShader> pPixelShader;
