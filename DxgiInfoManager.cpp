@@ -3,10 +3,10 @@
 #include "GraphicsH.hpp"
 #include <dxgidebug.h>
 #include <memory>
+#include "GraphicsThrowMacrosH.hpp"
+#include "WindowsThrowMacrosH.hpp"
 
 #pragma comment(lib, "dxguid.lib")
-
-#define GFX_THROW_NOINFO(hrcall) if( FAILED( hr = (hrcall) ) ) throw Graphics::HrException( __LINE__,__FILE__,hr )
 
 DxgiInfoManager::DxgiInfoManager()
 {

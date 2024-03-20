@@ -28,7 +28,7 @@ int CALLBACK WinMain(
 // 3D Programming Fundamentals 
 // https://www.youtube.com/watch?v=uehGqieEbus&list=PLqCJpWy5Fohe8ucwhksiv9hTF5sfid8lA&ab_channel=ChiliTomatoNoodle
 // next 
-// https://www.youtube.com/watch?v=P3lpJnm9IEY&list=PLqCJpWy5Fohd3S7ICFXwUomYW0Wv67pDD&index=23&ab_channel=ChiliTomatoNoodle
+// https://www.youtube.com/watch?v=ZoNCFe9FgG8&list=PLqCJpWy5Fohd3S7ICFXwUomYW0Wv67pDD&index=25&ab_channel=ChiliTomatoNoodle
 
 // The header file names are changed because visual create double object file if have the same name
 // weird error when closing the window
